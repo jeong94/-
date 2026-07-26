@@ -1,4 +1,4 @@
-// Main Application Controller with Firebase Auth & Firestore Integration
+// Main Application Controller with Detailed Debugging
 import { getUserData, saveUserData, setCurrentUid } from './utils/storage.js';
 import { soundManager } from './audio/soundManager.js';
 import { loginWithGoogle, loginAnonymouslyUser, logoutUser, subscribeAuthState } from './firebase/authService.js';
@@ -33,7 +33,6 @@ class App {
       if (user) {
         setCurrentUid(user.uid);
 
-        // Hide login buttons, show user status pill
         if (googleBtn) googleBtn.classList.add('hidden');
         if (anonBtn) anonBtn.classList.add('hidden');
         if (userStatusPill) userStatusPill.classList.remove('hidden');
@@ -42,7 +41,6 @@ class App {
         const name = isAnon ? '익명 플레이어 👤' : (user.displayName || '구글 사용자 🔍');
         if (displayNameElem) displayNameElem.innerText = name;
 
-        // Try syncing remote Firestore user data
         const remoteData = await fetchUserDataFromFirestore(user.uid);
         if (remoteData) {
           this.userData.gold = Math.max(this.userData.gold, remoteData.gold || 0);
@@ -86,7 +84,19 @@ class App {
         try {
           await loginWithGoogle();
         } catch (err) {
-          alert('구글 로그인 중 알림: ' + err.message);
+          const code = err.code || 'unknown';
+          const msg = err.message || err;
+          console.error("Google login error:", err);
+
+          if (code === 'auth/operation-not-allowed') {
+            alert('파이어베이스 콘솔에서 Google 로그인 서비스가 아직 활성화되지 않았습니다! (Authentication -> Sign-in method에서 Google을 사용 설정해주세요)');
+          } else if (code === 'auth/unauthorized-domain') {
+            alert('현재 도메인(bubble-vert.vercel.app)이 파이어베이스 승인된 도메인에 추가되지 않았습니다! (Authentication -> Settings -> Authorized domains에서 추가해주세요)');
+          } else if (code === 'auth/popup-blocked') {
+            alert('브라우저에서 팝업이 차단되었습니다. 팝업 차단을 해제하거나 리디렉션 로그인을 이용해주세요.');
+          } else {
+            alert(`구글 로그인 에러 [코드: ${code}]: ${msg}`);
+          }
         }
       });
     }
@@ -99,7 +109,14 @@ class App {
         try {
           await loginAnonymouslyUser();
         } catch (err) {
-          alert('익명 로그인 중 알림: ' + err.message);
+          const code = err.code || 'unknown';
+          const msg = err.message || err;
+          console.error("Anon login error:", err);
+          if (code === 'auth/operation-not-allowed') {
+            alert('파이어베이스 콘솔에서 익명 로그인 서비스가 활성화되지 않았습니다! (Authentication -> Sign-in method에서 익명을 사용 설정해주세요)');
+          } else {
+            alert(`익명 로그인 에러 [코드: ${code}]: ${msg}`);
+          }
         }
       });
     }
