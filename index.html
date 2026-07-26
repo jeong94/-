@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>10 만들기 수리 대탐험 🌿 | 초등 저학년 맞춤 연산 게임</title>
+  <!-- Google Fonts: Jua & Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="header-logo">
+        <span class="logo-icon">🌿</span>
+        <h1 class="logo-title">10 만들기 <span>수리 대탐험</span></h1>
+      </div>
+
+      <!-- Auth & Player Profile Controls -->
+      <div class="header-profile">
+        <!-- Auth Login Buttons / Status -->
+        <div class="auth-box" id="auth-box">
+          <button class="btn btn-sm btn-auth-google" id="google-login-btn">
+            🔍 구글 로그인
+          </button>
+          <button class="btn btn-sm btn-auth-anon" id="anon-login-btn">
+            👤 익명 플레이
+          </button>
+          <div class="user-status-pill hidden" id="user-status-pill">
+            <span id="user-display-name">익명</span>
+            <button class="logout-btn" id="logout-btn" title="로그아웃">🚪</button>
+          </div>
+        </div>
+
+        <div class="profile-pill gold-pill" id="lobby-gold-pill">
+          🪙 <span id="lobby-gold-val">50</span> Gold
+        </div>
+        <div class="profile-pill clear-pill" id="lobby-clear-pill">
+          🎮 <span id="lobby-clears-val">0</span> 클리어
+        </div>
+        <button class="icon-btn sound-toggle-btn" id="sound-toggle-btn" title="소리 켜기/끄기">
+          🔊
+        </button>
+        <button class="btn btn-warning hof-open-btn" id="hof-open-btn">
+          🏆 명예의 전당
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="app-main" id="app-main">
+      <!-- LOBBY VIEW -->
+      <section class="lobby-view" id="lobby-view">
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h2>안녕! 10을 만드는 연산 왕이 되어볼까? 🌟</h2>
+            <p>25초 신나는 미니게임을 즐기고 골드를 모아서 귀여운 보스 몬스터에게 도전해보세요!</p>
+          </div>
+          <div class="welcome-mascot">🐰🌱</div>
+        </div>
+
+        <div class="section-title">
+          <h3>🎮 25초 스피드 미니게임 3종</h3>
+          <span class="sub-tag">클리어하고 골드를 차곡차곡 모아보세요!</span>
+        </div>
+
+        <!-- 3 Mini Games Grid -->
+        <div class="mini-games-grid">
+          <!-- Game 1 Card -->
+          <div class="game-selection-card card-bubble">
+            <div class="card-badge">미니게임 1</div>
+            <div class="card-icon">🟢</div>
+            <h4>10 짝꿍 방울 터뜨리기</h4>
+            <p>화면에 둥둥 떠다니는 숫자 방울 중 합이 10이 되는 짝꿍을 팡팡 터뜨려요!</p>
+            <div class="card-meta">⏱️ 제한시간: 25초 | 🪙 예상 골드: 50~100</div>
+            <button class="btn btn-primary start-game-btn" id="start-game-1">게임 시작 ➡️</button>
+          </div>
+
+          <!-- Game 2 Card -->
+          <div class="game-selection-card card-block">
+            <div class="card-badge">미니게임 2</div>
+            <div class="card-icon">🧩</div>
+            <h4>10 짝꿍 블록 맞추기</h4>
+            <p>말랑말랑 숫자 블록 중 합이 10이 되는 짝을 터뜨려 팡팡 떨어뜨려요!</p>
+            <div class="card-meta">⏱️ 제한시간: 25초 | 🪙 예상 골드: 60~120</div>
+            <button class="btn btn-primary start-game-btn" id="start-game-2">게임 시작 ➡️</button>
+          </div>
+
+          <!-- Game 3 Card -->
+          <div class="game-selection-card card-speed">
+            <div class="card-badge">미니게임 3</div>
+            <div class="card-icon">⚡</div>
+            <h4>10 짝꿍 스피드 퀴즈</h4>
+            <p>빈칸 [ ? ]에 들어갈 정답을 빠르게 선택하는 스피드 카드 퀴즈!</p>
+            <div class="card-meta">⏱️ 제한시간: 25초 | 🪙 예상 골드: 70~150</div>
+            <button class="btn btn-primary start-game-btn" id="start-game-3">게임 시작 ➡️</button>
+          </div>
+        </div>
+
+        <!-- Boss Challenge Section -->
+        <div class="boss-banner-card">
+          <div class="boss-banner-content">
+            <div class="boss-badge">👹 최종 스테이지</div>
+            <h3>슬라임 대장 텐텐 보스 레이드! 👑</h3>
+            <p>10을 만드는 10문제를 모두 맞히고 보스 클리어 트로피와 대량의 골드를 차지하세요!</p>
+            <div class="boss-req-pill">
+              입장료: <strong>🪙 50 Gold</strong> (보상: <strong>🪙 +200 Gold & 🏆 칭호</strong>)
+            </div>
+          </div>
+          <div class="boss-banner-action">
+            <button class="btn btn-danger boss-challenge-btn" id="start-boss-btn">
+              🔥 보스전 도전하기!
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACTIVE GAME STAGE CONTAINER -->
+      <section class="game-stage-view hidden" id="game-stage-view"></section>
+
+      <!-- HALL OF FAME MODAL CONTAINER -->
+      <div id="hof-modal-container"></div>
+    </main>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
